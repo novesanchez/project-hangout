@@ -1,0 +1,36 @@
+/* 
+    Document   : custom_boostrap.css
+    Created on : Jan 18, 2015, 3:42:01 PM
+    Author     : Nove
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.input-small#username, .input-small#password{
+    font-size: 12px;
+}
+
+.form-group-login {
+    width: 163px;
+}
+
+.form-group-login-btn {
+    padding-bottom:34px;
+}
+
+.container#cb-container{
+    margin-top: 55px;
+    font-family: 'Helvetica Neue';
+}
+
+.col-md-8 p{
+   color:#FFFFFF;
+   font-weight: normal;
+   font-size: 18px; 
+   text-align: justify;
+   margin: 0;
+   position: absolute;               /* 2 */
+   top: 50%;                   
+   width: 700px;
+   transform: translate(0, -50%);   
+}

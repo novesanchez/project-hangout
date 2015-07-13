@@ -1,0 +1,31 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/10-Routing
+
+my_account_edit:
+  url:    /home/:update
+  params: { module: home, action: edit }
+  requirements: { update: \d+ }
+  
+back_to_search:
+  url:    /postings/:sort_by/:id/:page
+  params: { module: postings, action: index }
+  requirements: { sort_by: \d+, id: \d+, page: \d+ }
+  
+view_post:
+  url:    /postings/:sort_by/:id/:page
+  params: { module: postings, action: post }
+  requirements: { sort_by: \d+, id: \d+, page: \d+ }  
+  
+# default rules
+homepage:
+  url:   /
+  param: { module: login, action: index }
+
+# generic rules
+# please, remove them by adding more specific rules
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

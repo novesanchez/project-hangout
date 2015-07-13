@@ -1,0 +1,237 @@
+@import url('http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css');
+body{
+    font-family: 'Helvetica Neue';
+    background: url("/images/new images/bg-content.png");
+}
+
+.profile img {
+    width:220px; 
+    height:220px; 
+}
+
+#myPostings, #myUpcomingHangout, #myHangoutToday, 
+#myPostingLoadMore, #myUpcomingLoadMore, #myHangoutLoadMore,
+#myHangoutToday_ajax, #myUpcomingHangout_ajax, #ajax{
+    font-family: 'tahoma';
+    font-size:11px;
+}
+
+.remaining-hrs{
+    text-align: center;
+    font-weight: bold;
+    font-size:12px;
+}
+
+.hangout-date{
+    text-align: right;
+}
+
+.list-group-home{
+    font-family: 'tahoma';
+    font-size:11px;
+}
+
+.x-nav{
+    background-color:#5CB85C!important;
+}
+
+.x-nav-text{
+    font-size: 1.25em;
+    font-weight: bold;
+    color:#FFFFFF;
+}
+
+x-nav-a{
+    font-weight: bold;
+    color:#DFF0D8!important;
+}
+/**
+source: http://bootsnipp.com/snippets/featured/panels-with-nav-tabs
+**/
+.panel.with-nav-tabs .panel-heading{
+    padding: 5px 5px 0 5px;
+}
+.panel.with-nav-tabs .nav-tabs{
+	border-bottom: none;
+}
+.panel.with-nav-tabs .nav-justified{
+	margin-bottom: -1px;
+}
+
+/*** PANEL SUCCESS ***/
+.with-nav-tabs.panel-success .nav-tabs > li > a,
+.with-nav-tabs.panel-success .nav-tabs > li > a:hover,
+.with-nav-tabs.panel-success .nav-tabs > li > a:focus {
+	color: #3c763d;
+}
+.with-nav-tabs.panel-success .nav-tabs > .open > a,
+.with-nav-tabs.panel-success .nav-tabs > .open > a:hover,
+.with-nav-tabs.panel-success .nav-tabs > .open > a:focus,
+.with-nav-tabs.panel-success .nav-tabs > li > a:hover,
+.with-nav-tabs.panel-success .nav-tabs > li > a:focus {
+	color: #3c763d;
+	background-color: #d6e9c6;
+	border-color: transparent;
+}
+.with-nav-tabs.panel-success .nav-tabs > li.active > a,
+.with-nav-tabs.panel-success .nav-tabs > li.active > a:hover,
+.with-nav-tabs.panel-success .nav-tabs > li.active > a:focus {
+	color: #3c763d;
+	background-color: #fff;
+	border-color: #d6e9c6;
+	border-bottom-color: transparent;
+}
+.with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > li > a {
+    color: #3c763d;   
+}
+.with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+.with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+    background-color: #d6e9c6;
+}
+.with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+.with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+.with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+    color: #fff;
+    background-color: #3c763d;
+}
+
+/**
+custom css
+**/
+.div-success, .div-error{    
+    display: none;
+}
+
+.form-abtyourself{
+    margin-bottom: 5px!important;
+    font-size: 12px;
+}
+
+.scrollable-menu {
+    height: auto;    
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
+.dropdown-menu a {
+    min-width: 50px;
+}
+
+.photo{
+    height: 200px;
+    width: 200px;    
+}
+
+.friend-photo{
+    height: 80px;
+    width: 80px;    
+    border: 1px solid #D2DCE9;
+}
+
+#tabProfile, #tabPersonalInformation, #tabFavAndInterest, #tabChangePassword, #tabPicture, #tabFriends, #tabEditPosting{
+    height: 500px;
+    position: relative;
+}
+
+#btnSaveProfile, #btnSavePersonalInfo, #btnSaveFavAndInterests, #btnSavePassword, #btnSavePicture {
+    position: absolute; 
+    right: 75px; 
+    bottom: 0;    
+}
+
+#btnSaveProfileCn, #btnSavePersonalInfoCn, #btnSaveFavAndInterestsCn, #btnSavePasswordCn, #btnSavePictureCn, #btnNextPost {
+    position: absolute; 
+    right: 0; 
+    bottom: 0;    
+}
+
+.x-rowcls-tbfr{
+    overflow-y:  auto; 
+    height: 490px!important; 
+    margin-bottom: 5px;
+}
+/**
+source: http://bootsnipp.com/snippets/featured/contact-lists
+**/
+
+.c-list {
+    padding: 0px;
+    min-height: 44px;
+}
+.title {
+    display: inline-block;
+    font-size: 1.7em;
+    font-weight: bold;
+    padding: 5px 15px;
+}
+ul.c-controls {
+    list-style: none;
+    margin: 0px;
+    min-height: 44px;
+}
+
+ul.c-controls li {
+    margin-top: 8px;
+    float: left;
+}
+
+ul.c-controls li a {
+    font-size: 1.7em;
+    padding: 11px 10px 6px;   
+}
+ul.c-controls li a i {
+    min-width: 24px;
+    text-align: center;
+}
+
+ul.c-controls li a:hover {
+    background-color: rgba(51, 51, 51, 0.2);
+}
+
+.c-toggle {
+    font-size: 1.7em;
+}
+
+.name {
+    font-size: 1.7em;
+    font-weight: 700;
+}
+
+.c-info {
+    padding: 5px 10px;
+    font-size: 1.25em;
+}
+
+#page-value {
+    right: 130px;
+    bottom: 0;
+    position: absolute;
+    width: 50px;
+    text-align: center;
+}
+
+#page-total {
+    right: 48px;
+    bottom: 0;
+    position: absolute;
+    width: 50px;
+    text-align: center;
+}
+
+#page-of {
+    right: 92px;
+    padding: 7px;
+    bottom: 0;
+    position: absolute;
+    width: 35px;
+}
+
+#btnPrevPost {
+    position: absolute; 
+    right: 185px; 
+    bottom: 0;     
+}

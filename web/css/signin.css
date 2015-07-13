@@ -1,0 +1,95 @@
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+  font-family: tahoma;
+  background: url("/images/new images/bg-content.png");
+}
+
+.form-signin {
+  max-width: 330px;
+  min-width: 330px;
+  margin: 0 auto;
+  margin-right: 35px;
+  float: right;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 14px;
+  background-color: #FFFFFF;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  margin-top: 5px;
+}
+.form-signin input[type="password"] {
+  margin-top: 5px;
+}
+
+.form-signin input[type="radio"] {
+  margin-top: 5px;
+}
+
+.form-signin .dropdown {
+  margin-top: 5px;
+}
+
+.form-signin h5 {
+  text-align: center;
+}
+
+.scrollable-menu {
+    height: auto;    
+    max-height: 200px;
+    overflow-x: hidden;
+}
+
+.dropdown-menu a {
+    min-width: 50px;
+}
+
+#wrap{
+    position:fixed;; 
+    z-index:-1; 
+    top:0; 
+    left:0; 
+    background-color:black
+}
+#wrap img.bgfade{
+    position:absolute;
+    top:0;
+    display:none;
+    width:100%;
+    height:100%;
+    z-index:-1;
+    opacity: 0.4;
+    filter: alpha(opacity=40); /* For IE8 and earlier */
+}
+
+.captcha, img#captcha-img{
+    padding: 0px 5px 5px 0;
+}
+
+.help-block{
+    font-size: 11px;
+}
+
+.lbl-incorrect-login{
+    color: red;
+    display: none;
+}
