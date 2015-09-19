@@ -43,14 +43,14 @@ class Postings extends BasePostings
         $q->orderBy('CAST(p.starttime AS datetime)');
         $q->orderBy('p.date_to_hangout asc');
         
-//        $total = 0;
-//        $qtemp = $q;
-//        $total = $qtemp->execute()->count();
-//        unset($qtemp);
+        $total = 0;
+        $qtemp = $q;
+        $total = $qtemp->execute()->count();
+        unset($qtemp);
         
         $q->offset($start);
-        $q->limit(6);        
-        return array($q->execute(), $q->execute()->count());
+        $q->limit(5);        
+        return array($q->execute(), $q->execute()->count(), $total);
     }
     
     public function getPostingDetails($postingId = null)
