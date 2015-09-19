@@ -1,4 +1,167 @@
-<script src="/js/dummy.js"></script>
+<style>
+
+    .form-create{
+        font-size: 12px!important;
+    }
+    
+    
+</style>
+
+<div class="container-fluid">
+    
+    <section class="container">
+        
+                <h3 class="dark-grey">Edit Post</h3>
+
+                <div class="div-success alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span id="alertMsgSuccess"></span>
+                </div>
+                <div class="div-error alert alert-danger alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <span id="alertMsgError"></span>
+                </div>
+                
+                <form id="frmEditPostings" name="frmEditPostings" method="post" >
+                    <div class="container-page">	
+                                        
+                        <div class="col-md-6">                            
+                                <div class="form-group" style="font-size:12px!important;">
+					<label>Posting Title:</label>
+					<input type="text" maxlength="50" name="posting_title" class="form-control" id="posting_title" placeholder="Maximum of 50 characters only." value="<?php echo isset($post->posting_title)? $post->posting_title:""; ?>">
+				</div>
+                                <div class="form-group" style="font-size:12px!important;">
+					<label>Posting Description:</label>
+					<textarea class="form-control" id='posting_desc' name='posting_desc' maxlength="300" cols='100' rows='4' placeholder="Maximum of 300 characters only."><?php echo isset($post->posting_desc)? $post->posting_desc:""; ?></textarea>
+				</div>
+                            
+                                <button id="btnSaveEdit" class="btn btn-success" type="button">Submit Changes</button> 
+                                <button id="btnGoBack" class="btn btn-success" type="button">Go Back</button> 
+                        </div>
+                    
+			<div class="col-md-6">
+
+				<div class="form-group col-lg-6" style="font-size:12px!important;">
+					<label>Gender to Hangout with:</label>
+                                        <?php
+                                            $genderType = array('f'=>'Female','m'=>'Male','a'=>'Any');
+                                            $select = "<select id='gender_type' name='gender_type' class='form-control'>";
+                                            foreach($genderType as $k => $g)
+                                            {
+                                                    $txtselect = (isset($post->gender_type) && $post->gender_type == $k)? "selected":"";
+                                                    $select .= "<option value='$k' $txtselect >$g</option>";
+                                            }
+                                            $select .= "</select>";	
+                                            echo $select;
+                                        ?>
+				</div>
+				
+                                <div class="form-group col-lg-6" style="font-size:12px!important;">
+					<label>Hangout Start Date & Time:</label>
+					<div class="input-group date" id="hangout-startdt">
+                                        <input type="text" class="form-control" value="<?php echo $hangout_startdt; ?>"/>
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span> 
+                                            </span>
+                                        </div>
+				</div>
+
+				<div class="form-group col-lg-6" style="font-size:12px!important;">
+					<label>Number of People to Hangout with:</label>
+					<?php 
+                                            $select = "<select id='num_ppl' name='num_ppl' class='form-control'>";
+                                            for($i=1;$i<6;$i++)
+                                            {
+                                                    $txtselect = (isset($post->num_ppl) && $post->num_ppl == $i)? "selected":"";
+                                                    $select .= "<option value='$i' $txtselect>$i person</option>";		
+                                            }
+                                            $select .= "</select>";
+                                            echo $select;
+                                        ?>
+				</div>
+				
+				<div class="form-group col-lg-6" style="font-size:12px!important;">					
+                                        <label>Hangout End Date & Time:</label>
+                                        <div class="input-group date" id="hangout-enddt">
+                                        <input type="text" class="form-control" value="<?php echo $hangout_enddt ?>"/>
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span> 
+                                            </span>
+                                        </div>
+				</div>
+						
+                                <div class="dropdown">
+                                    <div class="button-group col-lg-3" style="font-size:12px!important;">
+                                            <label>Age Range: To</label>
+                                            <?php 
+                                            $select = "<select style='width:105px!important;' id='age_range_1' name='age_range_1' class='form-control'>";
+                                                for($i=18;$i<100;$i++)
+                                                {
+                                                        $txtselect = (isset($post->age_range_1) && $post->age_range_1 == $i)? "selected":"";
+                                                        $select .= "<option value='$i' $txtselect >$i</option>";	
+                                                }
+                                                $select .= "</select>";                                                                                        					
+                                                echo $select;	
+                                            ?>
+                                    </div>
+
+                                    <div class="button-group col-lg-3" style="font-size:12px!important;">
+                                            <label>From</label>
+                                            <?php 
+                                                $select = "<select style='width:105px!important;' id='age_range_2' name='age_range_2' class='form-control'>";
+                                                for($i=18;$i<100;$i++)
+                                                {
+                                                        $txtselect = (isset($post->age_range_2) && $post->age_range_2 == $i)? "selected":"";
+                                                        $select .= "<option value='$i' $txtselect >$i</option>";	
+                                                }
+                                                $select .= "</select>";						
+                                                echo $select;	
+                                            ?>
+                                    </div>			
+				</div>
+
+				<div class="form-group col-lg-6" style="font-size:12px!important;">
+                                        <label>Expires in:</label>
+                                        <select class="form-control" id="posting-enddt" name="posting-enddt">   
+                                            <?php                                                     
+//                                                $hours_before = array('6 Hours', '12 Hours', '1 Day');
+//                                                $option = '';
+//                                                foreach($hours_before as $v){
+//                                                    $selected_option = ($_REQUEST['post-enddt'] == $v)? 'selected':'';
+//                                                    $option .= '<option value="'.$v.'" '.$selected_option.'>'.$v.'</option>';
+//                                                }
+//                                                echo $option;
+                                            ?>
+                                            <?php                                                     
+                                                $hours_before = array('6 Hours', '12 Hours', '1 Day');
+                                                $option = '';
+
+                                                $dateToHangout     = date('Y-m-d H:i:s', strtotime($post->date_to_hangout.' '.$post->starttime));
+                                                $postingEnddt      = date('Y-m-d H:i:s', strtotime($post->posting_enddt));
+                                                $hours             = strtotime($dateToHangout) - strtotime($postingEnddt);
+                                                $hours_remaining   = floor(($hours - ($days * 86400)) / 3600);
+                                                $hours_remaining   = ($hours_remaining == 24)? 1:$hours_remaining;
+
+                                                foreach($hours_before as $v){
+                                                    $selected_option = ($hours_remaining == $v)? 'selected':'';
+                                                    $option .= '<option value="'.$v.'" '.$selected_option.'>'.$v.'</option>';
+                                                }
+                                                echo $option;
+                                            ?>
+                                        </select>
+                                        <p class="help-block">Before the start time of hangout date.</p>
+				</div>		
+			
+                        </div>
+                        	
+		</div>
+            </form>
+    </section>
+    
+</div>
+
+
+<!--<script src="/js/dummy.js"></script>-->
 
 <!--<div class="container_12" id="header" >
 	<header>
@@ -39,7 +202,7 @@
 		</nav>
 	</header>
 </div>  end #container_12 #header -->
-
+<!--
 <div class="clear"></div>
 
 <div class="container_12" id="body-wrap" role="main">
@@ -138,7 +301,7 @@
                                 <td>
                                 <fieldset>
                                         <label for='posting_enddt' >Posting End Date:</label>
-<!--						<input name="posting_enddt" type="text" id="posting_enddt" size="35" class='required' value="<?php echo isset($_REQUEST['posting_enddt'])? $_REQUEST['posting_enddt']:""; ?>"/>	-->
+						<input name="posting_enddt" type="text" id="posting_enddt" size="35" class='required' value="<?php echo isset($_REQUEST['posting_enddt'])? $_REQUEST['posting_enddt']:""; ?>"/>	
 
                                         <select style="width:115px!important;" class="required" id="posting_enddt" name="posting_enddt">   
 
@@ -198,7 +361,7 @@
 </div>
 
 <div class="clear"></div>
-<!--<div id="posttitle_info" style="background-color: red;">Maximum characters allowed to inpit: 50</div>-->
+<div id="posttitle_info" style="background-color: red;">Maximum characters allowed to inpit: 50</div>
 
 <div id="dialog-msg-hangoutst" style="display:none;" title="Empty Fields Required">
   <p>Please select a Hangout Start Date!</p>
@@ -226,7 +389,7 @@
 
 <div id="dialog-msg-invalidatedt" style="display:none;" title="Invalid Start and End Hangout Date!">
   <p>Please select an end date hangout greater than start date.</p>
-</div>
+</div>-->
 <!-- BEGIN CALL TO ACTION -->
 <!--<div class="cta-wrap">
 	<div id="call-to-action" class="container_12 clearfix">

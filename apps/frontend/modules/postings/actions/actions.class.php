@@ -392,21 +392,20 @@ class postingsActions extends sfActions
           
   public function executeCreatePosting(sfWebRequest $request)
   {
-      
-          $postingEnddt = $this->calculatePostingEndDate($_REQUEST['posting_enddt'], $_REQUEST['starttime'], $_REQUEST['startdt_hangout']);
-      
+                
 	  $memberId         = $_SESSION['userId'];
-	  $genderType       = $_REQUEST['gender'];
-	  $startdt_hangout  = date("Y-m-d",strtotime($_REQUEST['startdt_hangout']));
-          $enddt_hangout    = date("Y-m-d",strtotime($_REQUEST['enddt_hangout']));
-	  $numOfPpl         = $_REQUEST['num_ppl'];
-	  $ageRange_1       = $_REQUEST['age_range_1'];
-	  $ageRange_2       = $_REQUEST['age_range_2'];
-	  $startTime        = $_REQUEST['starttime'];
-	  $endTime          = $_REQUEST['endtime'];
-	  $postingTitle     = mysql_escape_string($_REQUEST['posting_title']);
-	  $postingDesc      = mysql_escape_string($_REQUEST['posting_desc']);
-	  
+	  $genderType       = $request->getParameter('gender');
+	  $startdt_hangout  = date("Y-m-d",strtotime($request->getParameter('hngtStartDtTm')));
+          $enddt_hangout    = date("Y-m-d",strtotime($request->getParameter('hngtEndDtTm')));
+	  $numOfPpl         = $request->getParameter('numPpl');
+	  $ageRange_1       = $request->getParameter('ageRange1');;
+	  $ageRange_2       = $request->getParameter('ageRange2');;
+	  $startTime        = date("h:i A",strtotime($request->getParameter('hngtStartDtTm')));
+	  $endTime          = date("h:i A",strtotime($request->getParameter('hngtEndDtTm')));
+	  $postingTitle     = mysql_escape_string($request->getParameter('postTitle'));
+	  $postingDesc      = mysql_escape_string($request->getParameter('postDesc'));
+          $postingEnddt     = $request->getParameter('postingEnddt');
+          
 	  $sql = "INSERT INTO postings(
                     member_id, 
                     gender_type, 
@@ -437,18 +436,17 @@ class postingsActions extends sfActions
                      now(),
                      '$enddt_hangout'
                   )";
-	 
+          
           try{
+              
  	  	$this->conn->execute($sql);
- 	 
                 $result = $this->conn->execute('SELECT distinct LAST_INSERT_ID() as posting_id FROM postings;')->fetchAll();
-                CustomHangout::alert002($memberId, $result[0]['posting_id']);
                 
- 	  	sleep(2);
- 	  	
- 	  	$this->redirect('/index.php/postings/index');
+//              CustomHangout::alert002($memberId, $result[0]['posting_id']);
+// 	  	$this->redirect('/index.php/postings/index');
+                die(json_encode(array('success' => true, 'posting_id' => $result[0]['posting_id'])));
 	  }catch(Exception $e){
-		 $this->redirect('/index.php/postings/index');
+		die(json_encode(array('success' => false, 'error' => $e->getMessage())));
 	  }
   }
   
@@ -464,43 +462,26 @@ class postingsActions extends sfActions
 	  $this->gender = $gender;
 	  $this->ageRange = $_REQUEST['age_range_1']."-".$_REQUEST['age_range_2'];
 	  
-          $hours = explode($_REQUEST['posting_enddt'], ' ');
-          $hours = str_replace('Hours', '', $_REQUEST['posting_enddt']);
+          $hours = explode($_REQUEST['posting-enddt'], ' ');
+          $hours = str_replace('Hours', '', $_REQUEST['posting-enddt']);
           $hours = str_replace('hours', '', $hours);
           $hours = str_replace('Day', '', $hours);
           $hours = trim($hours);
           $hours = $hours == 1? 24:$hours;
+         
+          $this->startdtHangout = date('l. F d, Y h:i A', strtotime($_REQUEST['hngtStartDtTm_']));
+          $this->enddtHangout = date('l. F d, Y h:i A', strtotime($_REQUEST['hngtEndDtTm_']));
+          $this->postingEnddt = date('l. F d, Y h:i A', strtotime($_REQUEST['hngtEndDtTm_']) + 3600 * (-$hours));
+          $this->postEnddt = date('m/d/Y h:i A', strtotime($_REQUEST['hngtEndDtTm_']) + 3600 * (-$hours));
           
-          $meridiem = 'AM';
-          if(stristr($_REQUEST['starttime'], 'AM') === FALSE) {
-            $meridiem = 'PM';
-          }
+//	  $memberId = $_SESSION['userId'];
+// 	  $sql = "SELECT member.*, photo.path FROM `member` join photo on member.profile_picture_id = photo.id where member.id=$memberId";
+//	  $st = $this->conn->execute($sql);
+//	  $result = $st->fetchAll(); 	  
+//	  
+//	  $this->picPath = $result[0]['path'];
           
-          $end_meridiem = 'AM';
-          if(stristr($_REQUEST['endtime'], 'AM') === FALSE) {
-            $end_meridiem = 'PM';
-          }
-          
-          $starttime = str_replace('AM', '', $_REQUEST['starttime']);
-          $starttime = str_replace('PM', '', $starttime);
-          
-          $endtime = str_replace('AM', '', $_REQUEST['endtime']);
-          $endtime = str_replace('PM', '', $endtime);
-          
-          $dateHangout = date('Y-m-d', strtotime($_REQUEST['startdt_hangout']));
-          $endDateHangout = date('Y-m-d', strtotime($_REQUEST['enddt_hangout']));
-          
-          $this->startdtHangout = date('l. F d, Y', strtotime($dateHangout));
-          $this->postingEnddt = date('l. F d, Y h:i A', strtotime($dateHangout.' '.$starttime.' '.$meridiem) + 3600 * (-$hours));
-          $this->starttime = date('l. F d, Y h:i A',strtotime($dateHangout.' '.$starttime.' '.$meridiem));
-          $this->endtime = date('l. F d, Y h:i A',strtotime($endDateHangout.' '.$endtime.' '.$end_meridiem));
-          
-	  $memberId = $_SESSION['userId'];
- 	  $sql = "SELECT member.*, photo.path FROM `member` join photo on member.profile_picture_id = photo.id where member.id=$memberId";
-	  $st = $this->conn->execute($sql);
-	  $result = $st->fetchAll(); 	  
-	  
-	  $this->picPath = $result[0]['path'];
+          $this->setLayout('new_layout');
   }
   
   public function executeCreate(sfWebRequest $request) { 
@@ -746,7 +727,12 @@ class postingsActions extends sfActions
       }
       
       $posting_id = $_GET['id'];      
-      $this->post = Postings::getPostingInfo($posting_id);            
+      $this->post = Postings::getPostingInfo($posting_id);    
+      
+      $this->hangout_startdt = date('m/d/Y h:i A', strtotime($this->post->date_to_hangout." ".$this->post->starttime));
+      $this->hangout_enddt = date('m/d/Y h:i A', strtotime($this->post->enddate_hangout." ".$this->post->endtime));
+      
+      $this->setLayout('new_layout');
   }
   
   public function executeSaveChanges(sfWebRequest $request)

@@ -401,15 +401,23 @@
                         $listBody = '<div id="div-postlist" class="list-group">';
                         foreach($posts as $v)
                         {
-                            $listBody .= '<a href="#" class="list-group-item" title="Click to Edit or Remove a Post">';
-                            $listBody .= '<h4 class="list-group-item-heading">'.$v->getPostingTitle().'</h4>';
-                            $listBody .= '<p class="list-group-item-text">'.$v->getPostingDesc().'</p>';                         
-                            $listBody .= '</a>';
+//                            $listBody .= '<a href="#" id="postItem" class="list-group-item" style="position:relative;overflow:hidden;" title="Click to View Post" data-toggle="modal" data-target="#viewPost">';
+                            $listBody .= '<div id="postItem" class="list-group-item" style="position:relative;overflow:hidden;">';
+                            $listBody .= '<div class="caption">';
+                            $listBody .= '<p><a href="/index.php/postings/edit?id='.$v->getId().'" class="label label-success" rel="tooltip">Edit</a>';
+                            $listBody .= '&nbsp;<a href="" class="label label-success" rel="tooltip">Delete</a></p>';
+                            $listBody .= '</div>';
+                            $listBody .= '<h4 class="list-group-item-heading">'.$v->getPostingTitle().'<span class="text-muted" style="float:right;font-size:13px!important;">Created </span></h4>';
+                            $listBody .= '<p class="list-group-item-text text-muted" style="font-size: 12px!important;">'.$v->getPostingDesc().'</p>';     
+                            $listBody .= '</div>';
+//                            $listBody .= '</a>';
                         }
                         $listBody .= "</div>";
                        
                         echo $listBody;                           
                     ?>
+                    
+                    <!--//Pagination//-->
                     <input type='hidden' id='page-num' value='0' />
                     <input type='hidden' id='total' value='<?php echo $total; ?>' />
                     <button id="btnPrevPost" class="btn btn-md btn-success disabled fa fa-backward" type="button">&nbsp;</button> 
@@ -423,6 +431,7 @@
         </div>
     </div>
 </div>
+
 <input type='hidden' id="msgSender" name="msgSender" value="<?php echo $nickname; ?>" />
 <div class="modal fade" id="message" tabindex="-1" role="dialog" aria-labelledby="messageLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -456,7 +465,93 @@
     </div>
 </div>        
 
-<div style='display:none'>
+<div class="modal fade" id="viewPost" tabindex="-1" role="dialog" aria-labelledby="post-label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="panel-title" id="post-label"><span class="fa fa-fw fa-comment"></span> Post Details</h4>                
+            </div>
+            <div class="modal-body" style="padding: 5px;">   
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 0px; padding-top: 10px;">
+                        <label for="post-gender">Gender to Hangout with</label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 10px;">
+                        <div class="btn-group">                              
+                            <button id="btn-gender" type="button" disabled class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                Female <span class="caret"></span>
+                            </button>
+                            <ul id="ul-city" class="dropdown-menu scrollable-menu" role="menu">
+                                <li><a href="#">Any</a></li>
+                                <li><a href="#">Female</a></li>
+                                <li><a href="#">Male</a></li>
+                            </ul>                               
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 0px; padding-top: 10px;">
+                        <label for="post-numppl">Number of People to Hangout with</label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 10px;">
+                        <div class="btn-group">                              
+                            <button id="btn-numppl" type="button" disabled class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                1 <span class="caret"></span>
+                            </button>
+                            <ul id="ul-city" class="dropdown-menu scrollable-menu" role="menu">
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li><a href="#">6</a></li>
+                            </ul>                               
+                        </div>
+                    </div>
+                </div>  
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 0px; padding-top: 10px;">
+                        <label for="post-numppl">Number of People to Hangout with</label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom: 10px;">
+                        <div class="btn-group">                              
+                            <button id="btn-numppl" type="button" disabled class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                1 <span class="caret"></span>
+                            </button>
+                            <ul id="ul-city" class="dropdown-menu scrollable-menu" role="menu">
+                                <li><a href="#">1</a></li>
+                                <li><a href="#">2</a></li>
+                                <li><a href="#">3</a></li>
+                                <li><a href="#">4</a></li>
+                                <li><a href="#">5</a></li>
+                                <li><a href="#">6</a></li>
+                            </ul>                               
+                        </div>
+                    </div>
+                </div>  
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="padding-bottom: 10px;">
+                        <label for="post-title">Post Title</label>
+                        <input class="form-control" id="post-title" name="post-title" type="text" disabled />
+                    </div>
+                </div>                
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <label for="post-desc">Post Description</label>
+                        <textarea style="resize:vertical;" class="form-control" rows="6" id="post-desc" name="post-desc" required></textarea>
+                    </div>
+                </div>
+            </div>  
+            <div class="panel-footer" style="margin-bottom:-14px;">
+                <button type="button" id="btnEdit" class="btn btn-success">Edit</button>
+                <button type="button" id="btnDelete" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>  
+
+<!--<div style='display:none'>
 	<div id="sendmsg">
 		<div class=''>
 			<form action="/index.php/home/sendMessage" name="sendMsgForm" id="Popup" method="post">	
@@ -485,4 +580,4 @@
 			</form>
 		</div>
 	</div>
-</div>
+</div>-->

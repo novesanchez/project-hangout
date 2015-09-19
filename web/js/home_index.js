@@ -97,6 +97,122 @@ jQuery(function(){
             }
         });
         
+        $("[rel='tooltip']").tooltip(); 
+        $("#div-postlist").on('mouseenter', '#postItem', function(e){
+           
+            $(this).find('.caption').slideDown(250);
+        });
+
+        $("#div-postlist").on('mouseleave', '#postItem', function(e){         
+            $(this).find('.caption').slideUp(250);
+        });
+
+       $('#hangout-startdt').datetimepicker({
+           sideBySide: true,
+           useCurrent: false,
+           minDate: new Date()//disable previous dates
+       });
+            
+       $('#hangout-startdt').on('dp.change', function(e){           
+           $('#hangout-enddt').data("DateTimePicker").minDate(e.date);
+           highlight('hangout-startdt', false);  
+       });
+       
+       $('#hangout-enddt').datetimepicker({
+           sideBySide: true          
+       });
+         
+       $('#posting_title').change(function(e){
+            highlight('posting_title', false);   
+        });
+
+        $('#posting_desc').change(function(e){
+            highlight('posting_desc', false);   
+        });
+        
+        $('#hangout-enddt').on('dp.change', function(e){           
+            highlight('hangout-enddt', false);   
+        });
+            
+       $("button#btnContinue").click(function(e){           
+           
+            var postTitle = $("#posting_title").val();
+            var postDesc = $("#posting_desc").val();
+            var hngtStartDtTm = $('#hangout-startdt').data('date');
+            var hngtEndDtTm = $('#hangout-enddt').data('date');
+           
+            var success = function(msg){
+                $('#alertMessageSuccess').html('<strong>' + msg + '</strong>');
+                $('.div-success').css({display : 'block'});
+                $('.div-success').delay(3000).fadeOut();
+            }
+            
+            var error = function(msg){
+                $('#alertMsgError').html('<strong>' + msg + '</strong>');
+                $('.div-error').css({display : 'block'});
+                $('.div-error').delay(3000).fadeOut();
+            }
+            
+            var highlight = function(el, isErr){
+                var rgbColor = isErr? "#FF0000" : "#CCCCCC";
+                $('#' + el).css({"border": rgbColor + ' 1px solid'});   
+            }
+            
+            if(!postTitle.trim()){
+                error("Please enter a Posting Title!");
+                highlight('posting_title', true);
+                return false;
+            } else if(!postDesc.trim()){
+                error("Please enter a Posting Description!");
+                highlight('posting_desc', true);
+                return false;
+            } else if(!hngtStartDtTm.trim()){
+                error("Please enter a Hangout Start Date and Time!");
+                highlight('hangout-startdt', true);
+                return false;
+            } else if(!hngtStartDtTm.trim()){
+                error("Please enter a Hangout Start Date and Time!");
+                highlight('hangout-startdt', true);
+                return false;
+            } else if(!hngtEndDtTm.trim()){
+                error("Please enter a Hangout End Date and Time!");
+                highlight('hangout-enddt', true);
+                return false;
+            }                       
+            
+            $('form[name=frmCrtPostings]').attr({action: "/index.php/postings/preview"});
+            $('form[name=frmCrtPostings]').append('<input type="hidden" name="hngtStartDtTm " value="' + hngtStartDtTm + '" />');
+            $('form[name=frmCrtPostings]').append('<input type="hidden" name="hngtEndDtTm " value="' + hngtEndDtTm + '" />');
+            $('form[name=frmCrtPostings]').submit();   
+        
+        });
+        
+        $('select[name=age_range_1]').change(function(e){ 
+           changeAgeRange();
+        });                
+        
+        $("button#btnSubmit").click(function(e){   
+            
+            var posting_id = $("#posting_id").val();            
+            if(!posting_id.trim()){
+                submitPost();
+            } else {
+                window.location.href = "/index.php/postings/create";
+            }
+            
+        });
+        
+        $("button#btnBack").click(function(e){   
+            
+            var posting_id = $("#posting_id").val();            
+            if(!posting_id.trim()){
+                $('form[name=posting]').attr({action: "/index.php/postings/create"});
+                $('form[name=posting]').submit();
+            } else {
+                window.location.replace("/index.php/postings/index");
+            }
+            
+        });
     });
     
     function loadMyPostings(EmptyMainDiv, start){
@@ -632,4 +748,73 @@ jQuery(function(){
        }); 
        
     }
+    
+    function changeAgeRange()
+    {
+        var age_range_1 = $('select[name=age_range_1]').val();
+        var age_range_2 = $('select[name=age_range_2]').val();
+        
+        //if(age_range_1 > age_range_2){
+            $('select[name=age_range_2]').empty();
+            $('select[name=age_range_2]').append($("<option>",{value: age_range_1,text: age_range_1})); 
+        //}
+        
+        var start = parseInt(age_range_1);
+        for(var i = start;i < 100;i++)
+        {
+            $('select[name=age_range_2]').append($("<option>",{value: i,text: i}));   
+        }
+    }
+    
+    function highlight(el, isErr)
+    {
+        var rgbColor = isErr? "#FF0000" : "#CCCCCC";
+        $('#' + el).css({"border": rgbColor + ' 1px solid'});   
+    }
+    
+    function submitPost()
+    {
+        var postTitle = $("#posting_title").val();
+        var postDesc = $("#posting_desc").val();
+        var hngtStartDtTm = $('#startdt_hangout').val();
+        var hngtEndDtTm = $('#enddt_hangout').val();
+        var postingEnddt = $('#posting_enddt').val();
+        var numPpl = $('#num_ppl').val();
+        var gender = $('#gender').val();
+        var ageRange1 = $('#age_range_1').val();
+        var ageRange2 = $('#age_range_2').val();
+        
+        var params = "postTitle=" + postTitle + "&postDesc=" + postDesc + "&hngtStartDtTm=" + hngtStartDtTm + "&hngtEndDtTm=" + hngtEndDtTm;
+        params = params + "&postingEnddt=" + postingEnddt + "&numPpl=" + numPpl + "&gender=" + gender + "&ageRange1=" + ageRange1 + "&ageRange2=" + ageRange2;
+        
+        var success = function(msg){
+            $('#alertMsgSuccess').html('<strong>' + msg + '</strong>');
+            $('.div-success').css({display : 'block'});
+            $('.div-success').delay(3000).fadeOut();
+        }
+
+        var error = function(msg){
+            $('#alertMsgError').html('<strong>' + msg + '</strong>');
+            $('.div-error').css({display : 'block'});
+            $('.div-error').delay(3000).fadeOut();
+        }
+            
+        $.ajax({  
+            type: "POST",            
+            url: '/index.php/postings/CreatePosting',     
+            data: params,
+            complete: function(data){                      
+                var rs = $.parseJSON(data.responseText);                              
+                if(rs.success){
+                    success("Posted!");
+                    $("#lblPrvwPost").text("View Post");
+                    $("#btnSubmit").text("New Post");
+                    $("#posting_id").val(rs.posting_id);
+                } else {
+                    error("An error occurred while processing your request. Please try again later!");
+                }
+            }  
+       }); 
+    }
+    
 });

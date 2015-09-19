@@ -1133,10 +1133,20 @@ class homeActions extends sfActions
         $listBody = '';
         foreach($posts as $v)
         {
-            $listBody .= '<a href="#" class="list-group-item" title="Click to Edit or Remove a Post">';
-            $listBody .= '<h4 class="list-group-item-heading">'.$v->getPostingTitle().'</h4>';
-            $listBody .= '<p class="list-group-item-text">'.$v->getPostingDesc().'</p>';                         
-            $listBody .= '</a>';
+            
+//            $listBody .= '<a href="#" class="list-group-item" title="Click to Edit or Remove a Post">';
+//            $listBody .= '<h4 class="list-group-item-heading">'.$v->getPostingTitle().'<span class="text-muted" style="float:right;font-size:13px!important;">Created </span></h4>';
+//            $listBody .= '<p class="list-group-item-text text-muted" style="font-size: 12px!important;">'.$v->getPostingDesc().'</p>';   
+//            $listBody .= '</a>';
+            
+            $listBody .= '<div id="postItem" class="list-group-item" style="position:relative;overflow:hidden;">';
+            $listBody .= '<div class="caption">';
+            $listBody .= '<p><a href="/index.php/postings/edit?id='.$v->getId().'" class="label label-success" rel="tooltip">Edit</a>';
+            $listBody .= '&nbsp;<a href="" class="label label-success" rel="tooltip">Delete</a></p>';
+            $listBody .= '</div>';
+            $listBody .= '<h4 class="list-group-item-heading">'.$v->getPostingTitle().'<span class="text-muted" style="float:right;font-size:13px!important;">Created </span></h4>';
+            $listBody .= '<p class="list-group-item-text text-muted" style="font-size: 12px!important;">'.$v->getPostingDesc().'</p>';     
+            $listBody .= '</div>';
         }
 
         die(json_encode(array('success' => true, 'total' => $total, 'body' => $listBody, 'totalPostings' => $totalPostings)));
